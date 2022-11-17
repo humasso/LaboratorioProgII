@@ -1,73 +1,175 @@
-import java.util.LinkedList;
 
+import java.util.ArrayList;
+import java.util.List;
+
+// Le istanze di questa classe rappresentano polinomi (sparsi) a coefficienti interi.
+// Gli oggetti di questo tipo sono immutabili.
 public class SparsePoly {
-  private record Monomio(int degree,int coeff) {
-        public Monomio(int degree,int coeff) {
-            if (degree<0){
-                throw new NegativeExponentExeption("il grado non deve essere minore di 0");
-            }
-        }
-        public String toString() {
-            return coeff+"x^"+degree
-        }
+
+  // Ciascun termine rappresenta coeff * x^degree.
+  // Le istanze di questo record rappresentano termini di polinomi
+  // Gli oggetti di questo tipo sono immutabili.
+  public record Term(int coeff, int degree) {
+    // Costruttori
+    public Term {
+      if (degree < 0) throw new NegativeExponentException("Il grado dev'essere positivo");
     }
 
-  // Campi
-  List<Monomio> terms;
-
-  /*
-   * AF(terms)=
-   * terms[0].coeff*x^terms[0].degree+...+terms[n].coeff*x^terms[n].degree
-   * if n==0 =>0
-   */
-  /*
-   * RI(terms)=terms[i].degree>=0 && tutti gli elementi di terms devono essere
-   * Monomi
-   * && terms dev'esere ordnato per grado
-   * && tutti gli elmenti di terms devono essere monomi
-   */
-  // Costruttori
-  // EFFECTS: costruisce il polinomio zero
-  public SparsePoly() {
-    terms = new LinkedList<>();
+    @Override
+    public String toString() {
+      return coeff + "x^" + degree;
+    }
   }
 
-  // EFFECTS: costruisce il polinomio coeff*x^degree
+  // Campi
+  // La lista contenente i termini del polinomio, ordinati per grado.
+  // esempio: Term(1,2), Term(3,4), Term(5,6) -> x^2 + 3x^4 + 5x^6
+  private final List<Term> terms;
+
+  // Costruttori
+  /** Costruisce il polinomio zero */
+  public SparsePoly() {
+    terms = new ArrayList<>();
+  }
+
+  /** Costruisce il polinomio coeff * x ^ degree */
   public SparsePoly(int coeff, int degree) {
     this();
     if (coeff != 0)
-      terms.add(new Monomio(coeff, degree));
+      terms.add(new Term(coeff, degree));
   }
 
-  // METODI
-  // EFFECTS: restituisce il grado del polinomio
+  // Metodi
+  /** Post-condizioni: restituisce il grado del polinomio */
   public int degree() {
-        if terms.size()==return -1;
-        return terms.get(terms.size()-1).degree;
-    }
+    return terms.size() > 0 ? terms.get(terms.size() - 1).degree : -1;
+  }
 
-  // REQUIRES: degree>=0
-  // EFFECTS: restituisce il coefficiente relativo a x^degree
-  public int coeffByDegree(int degree) {
+  /**
+   * Post-condizioni: restituisce l'indice di del termine di this il cui il grado
+   * è degree
+   */
+  private int findByDegree(int degree) {
+    int low = 0;
+    int high = terms.size() - 1;
+
+    while (low <= high) {
+      int mid = (low + high) >>> 1;
+      int midVal = terms.get(mid).degree;
+
+      if (midVal < degree)
+        low = mid + 1;
+      else if (midVal > degree)
+        high = mid - 1;
+      else
+        return mid;
+    }
+    return -(low + 1);
+  }
+
+  /**
+   * Pre-condizioni: degree >= 0 Post-condizioni: restituisce il coefficiente di
+   * x^degree se degree
+   * >= 0
+   */
+  public int coeff(int degree) {
+    int i = findByDegree(degree);
+    if (i >= 0)
+      return terms.get(i).coeff;
     return 0;
   }
 
-  // REQUIRES: other non null
-  // EFFECTS: restituisce this + other
-  public SparsePoly sum(SparsePoly other) {
+  /**
+   * Pre-condizioni: p diverso da null Post-condizioni: restituisce il polinomio
+   * this + p
+   */
+  public SparsePoly add(SparsePoly q) throws NullPointerException {
+    int indexThis = 0, indexQ = 0;
+    SparsePoly result = new SparsePoly();
 
+    while (indexThis < terms.size() && indexQ < q.terms.size()) {
+      int diff = terms.get(indexThis).degree - q.terms.get(indexQ).degree;
+      if (diff < 0)
+        result.terms.add(terms.get(indexThis++));
+      else if (diff > 0)
+        result.terms.add(terms.get(indexQ++));
+      else { // I gradi sono uguali
+        int newCoeff = this.terms.get(indexThis).coeff + q.terms.get(indexQ).coeff;
+        if (newCoeff != 0)
+          result.terms.add(new Term(newCoeff, terms.get(indexThis).degree));
+        indexThis++;
+        indexQ++;
+      }
+    }
+
+    while (indexThis < terms.size())
+      result.terms.add(terms.get(indexThis++));
+    while (indexQ < q.terms.size())
+      result.terms.add(q.terms.get(indexQ++));
+
+    return result;
   }
 
-  // REQUIRES: other non null
-  // EFFECTS: restituisce this + other
-  public SparsePoly mul(SparsePoly other) {
+  /**
+   * Pre-condizioni: p diverso da null Post-condizioni: restituisce il polinomio
+   * this * p
+   */
+  public SparsePoly mul(SparsePoly other) throws NullPointerException {
+    SparsePoly result = new SparsePoly();
 
+    if (other.degree() == -1 || degree() == -1)
+      return result;
+
+    for (int indexThis = 0; indexThis < terms.size(); indexThis++)
+      for (int indexOther = 0; indexOther < other.terms.size(); indexOther++) {
+        int newCoeff = terms.get(indexThis).coeff * other.terms.get(indexOther).coeff;
+        int newDegree = terms.get(indexThis).degree + other.terms.get(indexOther).degree;
+
+        int index = result.findByDegree(newDegree);
+        if (index >= 0) {
+          newCoeff += result.terms.get(index).coeff;
+          if (newCoeff == 0)
+            result.terms.remove(index);
+          else
+            result.terms.set(index, new Term(newCoeff, newDegree));
+        } else
+          result.terms.add(-index - 1, new Term(newCoeff, newDegree));
+      }
+
+    return result;
   }
 
-  // REQUIRES: this non null
-  // EFFECTS: restituisce this + other
-  public SparsePoly minus(SparsePoly other) {
-
+  /**
+   * Pre-condizioni: p diverso da null Post-condizioni: restituisce il polinomio
+   * -this
+   */
+  public SparsePoly minus() {
+    SparsePoly result = new SparsePoly();
+    for (SparsePoly.Term t : terms)
+      result.terms.add(new Term(-t.coeff, t.degree));
+    return result;
   }
 
+  /**
+   * Pre-condizioni: p diverso da null Post-condizioni: restituisce il polinomio
+   * this - p
+   */
+  public SparsePoly sub(SparsePoly other) {
+    return this.add(other.minus());
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder("SparsePoly: ");
+
+    if (degree() == -1)
+      sb.append('0');
+    else {
+      for (int i = 0; i < terms.size() - 1; i++)
+        sb.append(terms.get(i).toString()).append(" + ");
+      sb.append(terms.get(terms.size() - 1));
+    }
+
+    return sb.toString();
+  }
 }
