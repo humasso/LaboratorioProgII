@@ -1,12 +1,12 @@
 import java.util.ArrayList;
 import java.util.List;
 
-//Questa classe si occuperà di implementare gli insiemi matematici di interi
+//Questa classe si occuperà di implementare gli insiemi composti da numeri interi
 public class IntsSets {
     // ogni oggetto rappresenterà un insieme
 
     // Campi
-    // Elements sarà la strotturà che rappresenterà il nostro insieme
+    // Elements sarà la strutturà che rappresenterà il nostro insieme
     private List<Integer> elements;
 
     // COSTRUTTORI
@@ -17,18 +17,32 @@ public class IntsSets {
         elements = new ArrayList<>();
     }
 
+    /*
+     * IR: ogni elemento di elements deve essere diverso da null, elements non deve
+     * contenere elementi uguali
+     * 
+     */
+    /*
+     * AF(elements ):elements[0]+...+elements[n]
+     * if n==0 =>0
+     */
     /**
-     * @param v
+     * AddElement si occupa di Aggiungere un elemento all'insieme a meno che non
+     * sia==null o già presente nell'insieme
+     * 
+     * @param v elemento da aggiungere
+     * 
      */
     public void AddElement(int v) {
-        if (!this.contains(v))
+        if (!elements.contains(v))
             elements.add(v);
     }
 
     /**
-     * Ritorna un valore boolena se l'elemento è compreso all'interno dell'insieme
      * 
-     * @param v valore che si vuole controllare sia all'interno dell'insime
+     * Ritorna un valore boolean se l'elemento è compreso all'interno dell'insieme
+     * 
+     * @param v valore da controllare
      * @return boolean rappresentante la presenza o meno dell'elemento nell'insieme
      */
     private boolean contains(int v) {
@@ -36,12 +50,12 @@ public class IntsSets {
     }
 
     /**
-     * L'elemento all'interno dell'insieme verrà rimosso
+     * Si Occupa di rimuovere l'elemento V dall'interno dell'insieme se presente
      * 
      * @param v elemento che si desiderà rimuovere
      */
     public void RemoveElement(int v) {
-        if (this.contains(v)) {
+        if (elements.contains(v)) { // this qui non serve
             int index = elements.indexOf(v);
             if (index != -1) {
                 int lastIndex = elements.size() - 1;
@@ -49,13 +63,13 @@ public class IntsSets {
                 elements.remove(lastIndex);
             }
 
-        } else {
-            throw new NoElementInTheSet("L'elemento richiesto non è presente nell' insieme");
         }
     }
 
     /**
-     * @return Numero di elementi dell'insimeme
+     * Si occupa di ritornare il Numero di elementi all'interno dell'isieme
+     * 
+     * @return
      */
     public int size() {
         return elements.size();
@@ -78,11 +92,12 @@ public class IntsSets {
     }
 
     /**
-     * Post-condizioni: restituisce un elemento scelto arbitrariamente nell'insieme
+     * Restituisce un elemento scelto arbitrariamente nell'insieme
      * e solleva un'eccezione di tipo EmptyException se l'insieme è vuoto
      * 
      * @return int
      * @throws EmptyException
+     * 
      */
     public int choose() throws EmptyException {
         if (this.size() == 0)

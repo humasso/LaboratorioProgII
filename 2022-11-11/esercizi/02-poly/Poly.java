@@ -1,9 +1,9 @@
 //Questa classe permetterà la rappresentazione di polinomi nella  strottura cx^n
 public class Poly {
     // Campi
-    int c;
-    int n;
-
+    int c; // moltiplicatore
+    int n; // Esponente
+    
     // Costruttori
     /**
      * Genera un polinomio 0
@@ -14,6 +14,7 @@ public class Poly {
     }
 
     /**
+     * Genera un polinomio $cx^n$
      * 
      * @param c,n
      * 
@@ -31,12 +32,12 @@ public class Poly {
      * @param q Polinomio da aggiungere
      * @return Poly Polinomio risolutante dalla somma
      */
-    public Poly add(Poly q) {
+    public void add(Poly q) {
         if (this.n != q.n) {
             throw new NotSameDegree("il rango dei polinomi devono essere uguali per  poter essere sommati");
         }
         this.c += c;
-        return this;
+        return;
 
     }
 
@@ -46,55 +47,67 @@ public class Poly {
      * @param q
      * @return Poly
      */
-    public Poly sub(Poly q) {
+    public void sub(Poly q) {
         if (this.n != q.n) {
             throw new NotSameDegree("il rango dei polinomi devono essere uguali per  poter essere sottratti");
         }
         this.c -= c;
-        return this;
+        return;
 
     }
 
     /**
-     * @param q
-     * @return Poly
+     * Si occupa di moltiplicare il polinomio corrente per un altro polinomio q
+     * 
+     * @param q fixx(come specifico l'eccezzione e come faccio riferimento
+     *          all'oggetto)
      */
-    public Poly mul(Poly q) {
+    public void mul(Poly q) {
         if (this.n == q.n) {
             this.c *= q.c;
-            return this;
+            // return this;
+            return;
         }
         if (this.c == q.c) {
             this.n += q.n;
-            return this;
+            // return this;
+            return;
         }
         throw new NotSameDegree("il rango dei polinomi devono essere uguali per  poter essere sottratti");
 
     }
 
     /**
+     * Si occupa di ottenete il polinomio opposto (?drexscvbgtfyrnhumjio,klòà)
+     * 
      * @param q
      * @return Poly
      */
-    public Poly minus(Poly q) {
-        return q;
+    public void minus(Poly q) {
+        return;
 
     }
 
     /**
+     * 
+     * Si occupa di resituire il rango del polinomio
+     * 
      * @return int
      */
     public int degree() {
-        return c;
+        return this.c;
 
     }
 
     /**
+     * risulta il coefficiente del termine di grado `d
+     * 
      * @param d
      * @return int
      */
     public int coeff(int d) {
-        return d;
+
+        return this.c * d ^ this.n;
 
     }
 
