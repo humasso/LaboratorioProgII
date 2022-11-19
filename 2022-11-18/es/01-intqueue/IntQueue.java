@@ -1,4 +1,3 @@
-import java.util.Arrays;
 
 public class IntQueue {
     /*-
@@ -20,27 +19,27 @@ public class IntQueue {
      * Costruisco una coda di dimensione n, sollevo un eccezzione se n<=0
      * 
      * @param n
-     * @throws IllegalArgumentException
+     * @throws IllegalArgumentException se n<=0 viene sollevata quest'eccezione
      */
     public IntQueue(int n) throws IllegalArgumentException {
         if (n <= 0) {
             throw new IllegalArgumentException("la dimensione  maggiore di 0");
         }
-        elements = new Int[n];
+        elements = new int[n];
         head = -1;
         tail = 0;
         assert repOk();
     }
 
     /**
-     * Inseriesce un elemento n all'interno della coda, se la coda non è piena
+     * Inserisce un elemento n all'interno della coda, se la coda non è piena,
      * altrimenti solleva un eccezione
      * 
      * 
      * @param n
      * @throws FullQueueExeption
      */
-    public void enqueu(int n) {
+    public void enqueue(int n) {
         if (isFull())
             throw new FullQueueExeption("coda piena");
         elements[tail] = n;
@@ -49,7 +48,7 @@ public class IntQueue {
     }
 
     /**
-     * restituisce l'elemento in testa alla coda e lo elimina se la coda non è
+     * Restituisce l'elemento in testa alla coda e lo elimina se la coda non è
      * vuota. Altrimenti solleva un eccezzione
      * 
      * @return
@@ -57,7 +56,7 @@ public class IntQueue {
      */
     public int dequeue() {
         if (isEmpty())
-            throw new EmptyQueueExeption();
+            throw new EmptyQueueExeption("coda vuota");
         int result = elements[head];
         head = (head + 1) % elements.length;
         if (head == tail) {
@@ -71,16 +70,16 @@ public class IntQueue {
     }
 
     /**
-     * Dimesnsione lista
+     * Restituisce la mensione della lista
      * 
-     * @return
+     * @return n=
      */
     public int size() {
         return (tail - head + elements.length) % elements.length;
     }
 
     /**
-     * restituisce true se la coda è vuota altrimenti true
+     * restituisce true se la coda è vuota altrimenti false
      * 
      * @return
      */
@@ -89,7 +88,7 @@ public class IntQueue {
     }
 
     /**
-     * restituisce true se la coda è piena altrimenti true
+     * restituisce true se la coda è piena altrimenti false
      * 
      * @return
      */
@@ -130,9 +129,9 @@ public class IntQueue {
             for (i = 0; i < size() - 1; i++) {
                 sb.append(elements[(head + i) % elements.length] + ", ");
             }
-            sb.append(elements[(head + i) % elements.length] + ", ");
-            // fixx
+            sb.append(elements[(head + i) % elements.length] + "] ");
         }
+        return sb.toString();
 
     }
 
