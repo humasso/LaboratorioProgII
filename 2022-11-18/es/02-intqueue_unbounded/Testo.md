@@ -38,7 +38,6 @@ in modo che restituisca una stringa idonea a rappresentare lo stato della coda
 e il metodo `repOK()`
 dovrà fornire un'appropriata implementazione dell'_invariante di rappresentazione_.
 
-
 ### La classe di test
 
 Sarà vostro compito, inoltre,
@@ -52,13 +51,13 @@ di `+1` e `-1`.
 Dopo aver instanziato una coda
 dovranno essere eseguite le seguenti operazioni fino alla chiusura del flusso d'ingresso:
 
- - ogni volta che sarà letto un `+1`,
-   bisognerà eseguire `enqueue(numEnqueue)`,
-   dove `numEnqueue` sarà il numero di `+1` letti fino al momento dell'invocazione,
-   mentre
- - ogni volta che sarà letto un `-1`,
-   bisognerà eseguire una operazione di `dequeue`,
-   e stampare e il numero estratto dalla coda.
+- ogni volta che sarà letto un `+1`,
+  bisognerà eseguire `enqueue(numEnqueue)`,
+  dove `numEnqueue` sarà il numero di `+1` letti fino al momento dell'invocazione,
+  mentre
+- ogni volta che sarà letto un `-1`,
+  bisognerà eseguire una operazione di `dequeue`,
+  e stampare e il numero estratto dalla coda.
 
 Dopo la chiusura del flusso d'ingresso,
 o qualora il numero di `-1` ecceda quello di `+1`,

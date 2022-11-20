@@ -29,7 +29,7 @@ public class Simplemap {
     private record mapEl(String key, int value) {
 
         public mapEl {
-            if (key == null || key == "") {
+            if (key.equals(null) || key.equals("")) {
                 throw new IllegalArgumentException("key non può essere null/vuota");
             }
 
@@ -97,7 +97,7 @@ public class Simplemap {
      *                                  l'errore
      */
     public void remove(String key) {
-        if (key == null) {
+        if (key.equals(null)) {
             throw new IllegalArgumentException("Key  non può essere null");
         }
         // System.out.println("index: " + getIndex(key));

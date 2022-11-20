@@ -59,19 +59,18 @@ una sequenza
 (non limitata)
 di comandi con il seguente formato
 
- - `+ str int`,
-   che aggiunge alla mappa l'associazione `str → int`,
-   oppure
- - `- str`,
-   che rimuove dalla mappa l'associazione avente per chiave la stringa `str`
-   e,
-   se tale chiave era presente,
-   stampa
-   nel flusso d'uscita standard
-   il valore che le corrispondeva.
+- `+ str int`,
+  che aggiunge alla mappa l'associazione `str → int`,
+  oppure
+- `- str`,
+  che rimuove dalla mappa l'associazione avente per chiave la stringa `str`
+  e,
+  se tale chiave era presente,
+  stampa
+  nel flusso d'uscita standard
+  il valore che le corrispondeva.
 
 Al termine della lettura,
 deve emettere quindi
 nel flusso d'uscita standard,
 il numero di elementi contenuti della mappa.
-
