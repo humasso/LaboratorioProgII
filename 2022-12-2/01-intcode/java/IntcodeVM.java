@@ -21,8 +21,14 @@ public class IntcodeVM {
 	}
 
 	public String executeCode() {
-		while (memory.getAt(register.IP) != 99) {
-			System.out.println(memory.getAt(register.IP).toString());
+		while (memory.getAt(registers.getIP()) != 99) {
+			String instruction = (memory.getAt(registers.getIP()).toString());
+			System.out.println(instruction.lenght());
+			//while (instruction.lenght() < 5)
+			instruction = "0" + instruction;
+
+			System.out.println(instruction);
+			break;
 		}
 		/*
 		 * While prossimo opcode != 99 do
@@ -32,9 +38,6 @@ public class IntcodeVM {
 		 * elabora i dati letti
 		 * eventualmente salva output
 		 */
-	}
-
-	public String toString() {
-
+		return "";
 	}
 }
