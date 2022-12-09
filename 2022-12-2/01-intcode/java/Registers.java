@@ -139,4 +139,10 @@ public class Registers {
 	public int getRBP() {
 		return RBP;
 	}
+
+	@Override
+	public String toString() {
+		int i = IP + 1;
+		return "[IP = " + i + ", RBP = " + RBP + "]";
+	}
 }

@@ -33,4 +33,36 @@ public class Memory {
 
 		data.set(pos, value);
 	}
+
+	public int readValue(int arg, Registers reg, AccessMode acm) {
+		switch (acm) {
+			case POSITION:
+				System.out.println("position");
+				return getAt(getAt(arg));
+
+			case IMMEDIATE:
+				System.out.println("immediare");
+				return getAt(arg);
+
+			case RELATIVE:
+				System.out.println("relative");
+
+				reg.adderRBP(getAt(arg));
+				return getAt(reg.getRBP());
+
+			default:
+				return 0;
+		}
+	}
+
+	@Override
+	public String toString() {
+		String str = "[";
+
+		for (int i = 0; i < data.size(); i++)
+			str += data.get(i).toString() + ", ";
+
+		str = str.substring(0, str.length() - 2);
+		return str += "]";
+	}
 }

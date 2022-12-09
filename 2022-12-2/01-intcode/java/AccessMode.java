@@ -11,11 +11,22 @@ public enum AccessMode {
 
     /*
      * EFFECTS: Restituisce l'AccessCode con codice code
-     *          Solleva un'eccezione di tipo nel caso il codice non corrisponde a nessuna modalità d'accesso
+     * Solleva un'eccezione di tipo nel caso il codice non corrisponde a nessuna
+     * modalità d'accesso
      */
-  
-    public AccessMode fromCode(int code) {
-        for (AccessMode m : values()) if (m.code == code) return m;
+
+    public static AccessMode fromCode(int code) {
+        for (AccessMode m : values())
+            if (m.code == code)
+                return m;
         throw new IllegalArgumentException("Invalid Mode: " + code);
+    }
+
+    public boolean equals(AccessMode t) {
+        return t.code == this.code;
+    }
+
+    public int getCode() {
+        return this.code;
     }
 }
