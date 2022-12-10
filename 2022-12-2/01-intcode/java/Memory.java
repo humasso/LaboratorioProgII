@@ -37,15 +37,15 @@ public class Memory {
 	public int readValue(int arg, Registers reg, AccessMode acm) {
 		switch (acm) {
 			case POSITION:
-				System.out.println("position");
+				// System.out.println("position");
 				return getAt(getAt(arg));
 
 			case IMMEDIATE:
-				System.out.println("immediare");
+				// System.out.println("immediare");
 				return getAt(arg);
 
 			case RELATIVE:
-				System.out.println("relative");
+				// System.out.println("relative");
 
 				reg.adderRBP(getAt(arg));
 				return getAt(reg.getRBP());
