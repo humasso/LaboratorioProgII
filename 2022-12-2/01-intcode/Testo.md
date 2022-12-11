@@ -28,7 +28,7 @@ implementi la *funzione di astrazione*), `equals()` e `hashCode()`.
 Un programma Intcode è costitituito da una lista di interi (positivi e negativi)
 separati da virgole. Un esempio di programma è il seguente:
 
-	1, 3, 4, 2, 99
+    1, 3, 4, 2, 99
 
 Intcode implementa un'architettura di von Neumann con una memoria non limitata
 di celle, con indici a partire da 0, che possono memorizzare numeri interi.
@@ -49,18 +49,18 @@ del primo, secondo, e terzo parametro, rispettivamente (se presenti).
 
 #### Opcodes
 
-| Op | Parametri | Descrizione                                                                                                                    |
-|----|-----------|--------------------------------------------------------------------------------------------------------------------------------|
-| 01 | 3         | Somma i primi due argomenti e memorizza il risultato nella cella di memoria indicata dal terzo argomento.                      |
-| 02 | 3         | Moltiplica i primi due argomenti e memorizza il risultato nella cella di memoria indicata dal terzo argomento.                 |
-| 03 | 1         | Legge in input (da standard input) un numero intero e lo memorizza nella cella di memoria indicata dall'argomento.             |
-| 04 | 1         | Emette in output (su standard output) il primo argomento.                                                                      |
-| 05 | 2         | Se il primo argomento è diverso da zero, imposta il valore dell'instruction pointer affinché sia uguale al secondo argomento.  |
-| 06 | 2         | Se il primo argomento è uguale a zero, imposta il valore dell'instruction pointer affinché sia uguale al secondo argomento.    |
-| 07 | 3         | Se il primo argomento è minore del secondo, scrive 1 nella cella di memoria indicata dal terzo argomento. Altrimenti scrive 0. |
-| 08 | 3         | Se i primi due argomenti sono uguali, scrive 1 nella cella di memoria indicata dal terzo argomento. Altrimenti scrive 0.       |
-| 09 | 1         | Aggiunge il valore indicato dal primo argomento al relative base pointer.                                                      |
-| 99 | N/A       | Arresta l'esecuzione.                                                                                                          |
+| Op  | Parametri | Descrizione                                                                                                                    |
+| --- | --------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| 01  | 3         | Somma i primi due argomenti e memorizza il risultato nella cella di memoria indicata dal terzo argomento.                      |
+| 02  | 3         | Moltiplica i primi due argomenti e memorizza il risultato nella cella di memoria indicata dal terzo argomento.                 |
+| 03  | 1         | Legge in input (da standard input) un numero intero e lo memorizza nella cella di memoria indicata dall'argomento.             |
+| 04  | 1         | Emette in output (su standard output) il primo argomento.                                                                      |
+| 05  | 2         | Se il primo argomento è diverso da zero, imposta il valore dell'instruction pointer affinché sia uguale al secondo argomento.  |
+| 06  | 2         | Se il primo argomento è uguale a zero, imposta il valore dell'instruction pointer affinché sia uguale al secondo argomento.    |
+| 07  | 3         | Se il primo argomento è minore del secondo, scrive 1 nella cella di memoria indicata dal terzo argomento. Altrimenti scrive 0. |
+| 08  | 3         | Se i primi due argomenti sono uguali, scrive 1 nella cella di memoria indicata dal terzo argomento. Altrimenti scrive 0.       |
+| 09  | 1         | Aggiunge il valore indicato dal primo argomento al relative base pointer.                                                      |
+| 99  | N/A       | Arresta l'esecuzione.                                                                                                          |
 
 Fatta eccezione per le operazioni di *salto* (ossia le istruzioni con codici
 operativi 5 e 6, che modificano il contenuto dell'instruction pointer),
@@ -79,7 +79,6 @@ o scritti. Sono definite tre modalità:
 * *Modalità 2*, indirizzamento indiretto: il parametro è aggiunto al relative
   base register per ottenere l'indirizzo della cella che dev'essere acceduta per
   la scrittura o la lettura.
-
 
 ### Le classi per le eccezioni
 
@@ -102,35 +101,33 @@ dei suoi registri.
 
 Si supponga di avere in input il seguente programma
 
-	1,0,0,0,99
+    1,0,0,0,99
 
 Al termine dell'esecuzione,
 la memoria della macchina conterrà
 
-	2,0,0,0,99
+    2,0,0,0,99
 
 Infatti:
 
- * Al momento dell'inizializzazione, l'instruction pointer punta alla prima
-   cella di memoria (posizione 0), contenente l'opcode `1` (che corrisponde
-   all'operazione di somma).
- * Il valore in posizione `0` (primo parametro, in posizione 1) è sommato al
-   valore in posizione `0` (secondo parametro, in posizione 2) e il risultato è
-   scritto in posizione `0` (terzo parametro, in posizione 3).
- * Dopo aver eseguito l'operazione di somma, l'instruction pointer viene
-   incrementato al fine di indicare il prossimo opcode, che è 99 (che
-   corrisponde all'istruzione di terminazione dell'esecuzione). Si noti che, in
-   questo caso, l'instruction pointer viene incrementato fino al superamento delle
-   celle di memoria contenenti i tre parametri dell'istruzione `1` (in altri
-   termini, è incrementato di 4).
+* Al momento dell'inizializzazione, l'instruction pointer punta alla prima
+  cella di memoria (posizione 0), contenente l'opcode `1` (che corrisponde
+  all'operazione di somma).
+* Il valore in posizione `0` (primo parametro, in posizione 1) è sommato al
+  valore in posizione `0` (secondo parametro, in posizione 2) e il risultato è
+  scritto in posizione `0` (terzo parametro, in posizione 3).
+* Dopo aver eseguito l'operazione di somma, l'instruction pointer viene
+  incrementato al fine di indicare il prossimo opcode, che è 99 (che
+  corrisponde all'istruzione di terminazione dell'esecuzione). Si noti che, in
+  questo caso, l'instruction pointer viene incrementato fino al superamento delle
+  celle di memoria contenenti i tre parametri dell'istruzione `1` (in altri
+  termini, è incrementato di 4).
 
 Pertanto, al termine dell'esecuzione, lo stato della virtual machine sarà
 
     IntcodeVM :
       Memory : [2,0,0,0,99]
       Registers : [IP = 5, RBP = 0]
-
-
 
 Il seguente programma, invece, stampa il valore decimale dei caratteri ASCII
 della stringa `Hello, World!`
