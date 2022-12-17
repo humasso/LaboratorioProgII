@@ -6,7 +6,7 @@ public class Registers {
 	 */
 
 	/*
-	 * IR: IP > 0, RBP > 0
+	 * IR: IP => 0, RBP => 0
 	 * AF: (IP, RBP): due contatori
 	 */
 

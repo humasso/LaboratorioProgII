@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class Memory {
-	private ArrayList<Integer> data;
+	private final ArrayList<Integer> data;
 
 	public Memory() {
 		data = new ArrayList<Integer>();
