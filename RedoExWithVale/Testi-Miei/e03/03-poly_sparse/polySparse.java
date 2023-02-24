@@ -1,8 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.management.Query;
-
 public class polySparse {
     private final List<Integer> terms;
     private final List<Integer> expo;
@@ -33,6 +31,12 @@ public class polySparse {
         expo.add(n);
     }
 
+    /**
+     * fa ADD
+     * 
+     * @param q
+     * @return
+     */
     public polySparse add(polySparse q) {
         polySparse r = this;
         for (int i = 0; i < q.expo.size(); i++) {
@@ -47,6 +51,45 @@ public class polySparse {
         return r;
     }
 
+    public polySparse sub(polySparse q) {
+        polySparse r = this;
+        for (int i = 0; i < q.expo.size(); i++) {
+            int x = getPosByExpo(r, q.expo.get(i));
+            if (x != -1) {
+                r.terms.set(x, r.terms.get(i) - q.terms.get(i));
+            } else {
+                r.terms.add(-q.terms.get(i));
+                r.expo.add(q.expo.get(i));
+            }
+        }
+        return r;
+    }
+
+    public polySparse mul(polySparse q) {
+        polySparse r = this;
+        for (int i = 0; i < q.expo.size(); i++) {
+            int x = getPosByExpo(r, q.expo.get(i));
+            if (x != -1) {
+                r.terms.set(x, r.terms.get(i) * q.terms.get(i));
+            }
+        }
+        return r;
+    }
+
+    public polySparse minus() {
+        polySparse r = this;
+        for (int i = 0; i < this.terms.size(); i++) {
+            r.terms.set(i, -this.terms.get(i));
+        }
+        return r;
+    }
+
+    /**
+     * 
+     * @param p
+     * @param x
+     * @return
+     */
     public int getPosByExpo(polySparse p, int x) {
         int i;
         for (i = 0; i < p.expo.size(); i++) {
